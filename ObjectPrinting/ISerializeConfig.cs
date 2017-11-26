@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ObjectPrinting
+﻿namespace ObjectPrinting
 {
-	public interface ISerializeConfig<TOwner, TType>
+	public interface ISerializeConfig<TOwner>
 	{
 		PrintingConfig<TOwner> PrintingConfig { get; }
 	}

@@ -10,14 +10,14 @@ namespace ObjectPrinting
 {
 	public class PrintingConfig<TOwner>
 	{
-		private HashSet<Type> excudedTypes = new HashSet<Type>();
-		private Dictionary<Type, Delegate> serializedTypes 
+		private readonly HashSet<Type> excudedTypes = new HashSet<Type>();
+		private readonly Dictionary<Type, Delegate> serializedTypes 
 			= new Dictionary<Type, Delegate>();
-		private Dictionary<Type, CultureInfo> cultures 
+		private readonly Dictionary<Type, CultureInfo> cultures 
 			= new Dictionary<Type, CultureInfo>();
-		private Dictionary<string, Delegate> serializedProperties 
+		private readonly Dictionary<string, Delegate> serializedProperties 
 			= new Dictionary<string, Delegate>();
-		private HashSet<string> excudedProperties = new HashSet<string>();
+		private readonly HashSet<string> excudedProperties = new HashSet<string>();
 
 		public PrintingConfig<TOwner> ExcludeType<TType>()
 		{
@@ -52,10 +52,11 @@ namespace ObjectPrinting
 			return new SerializeConfig<TOwner, TProperty>(this, propName);
 		}
 
-		private string GetPropertyName<TProperty>(Expression<Func<TOwner, TProperty>> memberSelector)
+		private static string GetPropertyName<TProperty>(Expression<Func<TOwner, TProperty>> memberSelector)
 		{
-			var prop = (PropertyInfo)((MemberExpression) memberSelector.Body).Member;
-			return prop.Name;
+			if (memberSelector.Body is MemberExpression body)
+				return body.Member.Name;
+			throw new ArgumentException();
 		}
 
 		public PrintingConfig<TOwner> ExcludeProperty<TProperty>(

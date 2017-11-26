@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ObjectPrinting
 {
-	public class SerializeConfig<TOwner, TType> : PrintingConfig<TOwner> , ISerializeConfig<TOwner, TType>
+	public class SerializeConfig<TOwner, TType> : PrintingConfig<TOwner> , ISerializeConfig<TOwner>
 	{
 
-		private PrintingConfig<TOwner> printingConfig;
-		private string propertyName;
+		private readonly PrintingConfig<TOwner> printingConfig;
+		private readonly string propertyName;
 
 		public SerializeConfig(PrintingConfig<TOwner> printingConfig, string propertyName)
 		{
@@ -28,6 +23,6 @@ namespace ObjectPrinting
 			return printingConfig;
 		}
 
-		PrintingConfig<TOwner> ISerializeConfig<TOwner, TType>.PrintingConfig => printingConfig;
+		PrintingConfig<TOwner> ISerializeConfig<TOwner>.PrintingConfig => printingConfig;
 	}
 }
