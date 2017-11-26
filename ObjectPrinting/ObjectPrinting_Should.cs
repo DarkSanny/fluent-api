@@ -63,16 +63,29 @@ namespace ObjectPrinting
 		}
 
 		[Test]
-		public void Printing_ShouldChangeCultureForNumbersTypes()
+		public void Printing_ShouldChangeCultureForDouble()
 		{
 			var obj = new Testee<double>() {Value = 10.1};
-			var culture = new CultureInfo("ar-SA");
+			var culture = new CultureInfo("ru");
 			var printingConfig = ObjectPrinter.For<Testee<double>>().Printing<double>().UsingCulture(culture);
 
 			var type = obj.GetType();
 
 			printingConfig.PrintToString(obj).Should()
-				.Be(type.Name + Environment.NewLine + "\tValue = 10.1" + Environment.NewLine);
+				.Be(type.Name + Environment.NewLine + "\tValue = 10,10р." + Environment.NewLine);
+		}
+
+		[Test]
+		public void Printing_ShouldChangeCultureForInt()
+		{
+			var obj = new Testee<int>() {Value = 10};
+			var culture = new CultureInfo("en-CA");
+			var printingConfig = ObjectPrinter.For<Testee<int>>().Printing<int>().UsingCulture(culture);
+
+			var type = obj.GetType();
+
+			printingConfig.PrintToString(obj).Should()
+				.Be(type.Name + Environment.NewLine + "\tValue = $10.00" + Environment.NewLine);
 		}
 
 		[Test]
@@ -90,7 +103,7 @@ namespace ObjectPrinting
 		[Test]
 		public void Printing_ShouldNotTrim_WhenShortLine()
 		{
-			var obj = new Testee<string>() { Value = "" };
+			var obj = new Testee<string>() {Value = ""};
 			var printingConfig = ObjectPrinter.For<Testee<string>>().Printing<string>().TrimToLength(7);
 
 			var type = obj.GetType();
@@ -102,7 +115,7 @@ namespace ObjectPrinting
 		[Test]
 		public void Objects_ShouldHaveDefaultPrinting()
 		{
-			var obj = new Testee<int>() { Value = 10 };
+			var obj = new Testee<int>() {Value = 10};
 
 			var type = obj.GetType();
 
@@ -113,13 +126,12 @@ namespace ObjectPrinting
 		[Test]
 		public void Objects_ShouldHaveDefaultPrintingWithConfig()
 		{
-			var obj = new Testee<int>() { Value = 10 };
+			var obj = new Testee<int>() {Value = 10};
 
 			var type = obj.GetType();
 
 			obj.PrintToString(c => c.Printing<int>().Using(v => v + "!")).Should()
 				.Be(type.Name + Environment.NewLine + "\tValue = 10!" + Environment.NewLine);
 		}
-
 	}
 }

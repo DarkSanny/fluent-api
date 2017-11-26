@@ -79,7 +79,7 @@ namespace ObjectPrinting
 			if (serializedProperties.ContainsKey(info.Name))
 				return serializedProperties[info.Name].DynamicInvoke(info.GetValue(obj)) + Environment.NewLine;
 			if (cultures.ContainsKey(info.PropertyType))
-				return ((IFormattable) info.GetValue(obj)).ToString(null, cultures[info.PropertyType]) + Environment.NewLine;
+				return ((IFormattable) info.GetValue(obj)).ToString("c", cultures[info.PropertyType]) + Environment.NewLine;
 
 			return PrintToString(info.GetValue(obj), nestingLevel + 1);
 		}

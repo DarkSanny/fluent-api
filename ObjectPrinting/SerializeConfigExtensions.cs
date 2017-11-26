@@ -22,9 +22,9 @@ namespace ObjectPrinting
 
 		public static PrintingConfig<TOwner> UsingCulture<TOwner>(this SerializeConfig<TOwner, double> config, CultureInfo info)
 		{
-			var pc = ((ISerializeConfig<TOwner>)config).PrintingConfig;
-			AddCulture(pc, typeof(double), info);
-			return pc;
+			var printingConfig = ((ISerializeConfig<TOwner>)config).PrintingConfig;
+			AddCulture(printingConfig, typeof(double), info);
+			return printingConfig;
 		}
 
 		public static PrintingConfig<TOwner> UsingCulture<TOwner>(this SerializeConfig<TOwner, float> config, CultureInfo info)
@@ -43,7 +43,7 @@ namespace ObjectPrinting
 			int length)
 		{
 			var printingConfig = ((ISerializeConfig<TOwner>)config).PrintingConfig;
-			Func<string, string> func = (s) => s.Substring(0, Math.Min(Math.Max(0, s.Length), length));
+			Func<string, string> func = (s) => s.Substring(0, Math.Min(s.Length, length));
 			printingConfig.AddSerializeType(typeof(string), func);
 			return printingConfig;
 		}
